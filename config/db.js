@@ -117,7 +117,7 @@ const courseSchema = new Schema(
 const purchaseSchema = new Schema(
     {
         user: {
-            id: objectId,
+            type: objectId,
             ref: "User",
             required: true,
         },
@@ -136,7 +136,7 @@ const purchaseSchema = new Schema(
 );
 
 purchaseSchema.index({ user: 1, course: 1 }, { unique: true }); // prevents buying the same course more than 1 time
-courseSchema.index({ user: 1 }); // fast lookups for the user bought courses
+courseSchema.index({ creator: 1 }); // fast lookups for the user bought courses
 
 export const User = mongoose.model("User", userSchema);
 export const Course = mongoose.model("Course", courseSchema);
