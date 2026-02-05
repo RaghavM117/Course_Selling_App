@@ -1,6 +1,6 @@
 import createHttpError from "http-errors";
 import { User } from "../config/db.js";
-import { bcrypt } from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 export const signUp = async (req, res, next) => {
     try {

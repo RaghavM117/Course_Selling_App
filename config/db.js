@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export async function connectDB() {
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
-            dbName: "connectDB",
+            dbName: "CourseApp",
         });
         console.log("MongoDB connected");
     } catch (err) {
@@ -13,7 +13,7 @@ export async function connectDB() {
 }
 
 const { Schema } = mongoose;
-const { objectId } = Schema.types;
+const { ObjectId } = Schema.Types;
 
 const userSchema = new Schema(
     {
@@ -28,7 +28,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            lowercase: false,
+            lowercase: true,
             trim: true,
             match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         },
@@ -55,7 +55,7 @@ const userSchema = new Schema(
 const courseSchema = new Schema(
     {
         creator: {
-            type: objectId,
+            type: ObjectId,
             ref: "User",
             required: true,
         },
@@ -108,7 +108,7 @@ const courseSchema = new Schema(
             type: Number,
             required: true,
             min: 0,
-            max: 1_000_000,
+            max: 1000000,
         },
     },
     { timestamps: true, versionKey: false },
@@ -117,19 +117,30 @@ const courseSchema = new Schema(
 const purchaseSchema = new Schema(
     {
         user: {
-            type: objectId,
+            type: ObjectId,
             ref: "User",
             required: true,
         },
         course: {
-            id: objectId,
+            type: ObjectId,
             ref: "Course",
             required: true,
         },
         creator: {
-            id: objectId,
+            type: ObjectId,
             ref: "User",
             required: true,
+        },
+        priceAtPurchase: {
+            type: Number,
+            required: true,
+            min: 0,
+            max: 1000000,
+        },
+        status: {
+            type: String,
+            enum: ["pending", "completed", "cancelled"],
+            default: "pending",
         },
     },
     { timestamps: true, versionKey: false },

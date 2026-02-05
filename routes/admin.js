@@ -4,12 +4,19 @@ import auth from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
 import { signInSchema, signUpSchema } from "../validation/auth.schema.js";
 import { sendAuthTokens } from "../controllers/tokenController.js";
-import { signUp, signIn } from "../controllers/authController.js";
+import { signUp, signIn } from "../controllers/authControllers.js";
 import {
     postCourseSchema,
     updateCourseSchema,
+    courseIdParamSchema,
 } from "../validation/courses.schema.js";
-import { createCourses } from "../controllers/adminControllers.js";
+import {
+    createCourses,
+    editCourses,
+    getCourses,
+    getMyCourses,
+    deleteCourses,
+} from "../controllers/adminControllers.js";
 
 const router = express.Router();
 
@@ -23,14 +30,24 @@ router.use(adminOnly);
 router.post("/courses", validate(postCourseSchema), createCourses);
 
 router.patch(
-    "/course/:courseId",
-    validate(courseIdParamsSchema, "params"),
+    "/editCourse/:courseId",
+    validate(courseIdParamSchema, "params"),
     validate(updateCourseSchema),
     editCourses,
 );
 
-router.delete("/deleteCourse", adminOnly, deleteCourse);
+router.delete(
+    "/deleteCourse/:courseId",
+    validate(courseIdParamSchema, "params"),
+    deleteCourses,
+);
 
-router.get("/getCourses", adminOnly, getCourses);
+router.get(
+    "/getCourse/:courseId",
+    validate(courseIdParamSchema, "params"),
+    getCourses,
+);
+
+router.get("/myCourses", getMyCourses);
 
 export default router;

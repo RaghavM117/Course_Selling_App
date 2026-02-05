@@ -7,12 +7,25 @@ export const postCourseSchema = z.object({
     level: z.enum(["beginner", "intermediate", "advanced"]),
     language: z.string().trim().min(2).max(50),
     duration: z.string().trim().min(1).max(50),
-    image: z.string().z.url(),
-    price: z.number().min(0).max(1_000_000),
+    image: z
+        .string()
+        .trim()
+        .refine(
+            (val) => {
+                try {
+                    new URL(val);
+                    return true;
+                } catch {
+                    return false;
+                }
+            },
+            { message: "Invalid URL" },
+        ),
+    price: z.number().min(0).max(1000000),
 });
 
 export const updateCourseSchema = postCourseSchema.partial();
 
-const courseIdParamSchema = z.object({
+export const courseIdParamSchema = z.object({
     courseId: z.string().regex(/^[a-f\d]{24}$/i, "Invalid Mongo ID"),
 });
