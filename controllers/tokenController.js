@@ -4,7 +4,7 @@ export const sendAuthTokens = (req, res, next) => {
     try {
         const user = req.user;
 
-        const accessToken = signAccessToken(user._id, role);
+        const accessToken = signAccessToken(user._id, user._role);
 
         const message =
             req.authAction === "signUp"

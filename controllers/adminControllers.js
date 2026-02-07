@@ -89,7 +89,7 @@ export const deleteCourses = async (req, res, next) => {
 
         const deletingCourse = await Course.findOneAndDelete({
             _id: courseId,
-            creator: req.user_id,
+            creator: req.user._id,
         }).populate("creator", "name");
 
         if (!deletingCourse) {

@@ -1,7 +1,8 @@
 export const validate =
     (schema, property = "body") =>
     (req, res, next) => {
-        const result = schema.safeParse(req[property]);
+        try {
+            const result = schema.safeParse(req[property]);
 
         if (!result.success) {
             return res.status(400).json({
@@ -12,4 +13,9 @@ export const validate =
 
         req.property = result.data;
         next();
+        } catch (error) {
+            next(error);
+        }
     };
+
+export default validate;

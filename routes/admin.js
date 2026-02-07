@@ -2,7 +2,7 @@ import express from "express";
 import adminOnly from "../middlewares/adminOnly.js";
 import auth from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
-import { signInSchema, signUpSchema } from "../validation/auth.schema.js";
+import { signInSchema, signUpSchema, userSSchema } from "../validation/auth.schema.js";
 import { sendAuthTokens } from "../controllers/tokenController.js";
 import { signUp, signIn } from "../controllers/authControllers.js";
 import {
@@ -17,12 +17,15 @@ import {
     getMyCourses,
     deleteCourses,
 } from "../controllers/adminControllers.js";
+import { changePassword } from "../controllers/userControllers.js";
 
 const router = express.Router();
 
 router.post("/signup", validate(signUpSchema), signUp, sendAuthTokens);
 
 router.post("/signin", validate(signInSchema), signIn, sendAuthTokens);
+
+router.patch('/changePassword', auth, validate(userSSchema), changePassword);
 
 router.use(auth);
 router.use(adminOnly);
