@@ -3,26 +3,8 @@ import { Course } from "../config/db.js";
 
 export const createCourses = async (req, res, next) => {
     try {
-        const {
-            title,
-            description,
-            category,
-            level,
-            language,
-            duration,
-            image,
-            price,
-        } = req.body;
-
         const newCourse = await Course.create({
-            title,
-            description,
-            category,
-            level,
-            language,
-            duration,
-            image,
-            price,
+            ...req.body,
             creator: req.user._id,
         });
 
