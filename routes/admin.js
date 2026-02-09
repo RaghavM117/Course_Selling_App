@@ -32,24 +32,11 @@ router.use(adminOnly);
 
 router.post("/courses", validate(postCourseSchema), createCourses);
 
-router.patch(
-    "/editCourse/:courseId",
-    validate(courseIdParamSchema, "params"),
-    validate(updateCourseSchema),
-    editCourses,
-);
-
-router.delete(
-    "/deleteCourse/:courseId",
-    validate(courseIdParamSchema, "params"),
-    deleteCourses,
-);
-
-router.get(
-    "/getCourse/:courseId",
-    validate(courseIdParamSchema, "params"),
-    getCourses,
-);
+router.route("courses/:courseId")
+    .all(validate(courseIdParamSchema, "params"))
+    .get(getCourses)
+    .patch(validate(updateCourseSchema),editCourses)
+    .delete(deleteCourses);
 
 router.get("/myCourses", getMyCourses);
 
