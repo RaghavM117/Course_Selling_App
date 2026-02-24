@@ -2,7 +2,7 @@
     "name": "coursesellingapp",
     "version": "1.0.0",
     "description": "Just a practise project for express App",
-    "license": "ISC",
+    "license": "MIT",
     "author": "Raghav Mishra",
     "type": "module",
     "main": "index.js",
