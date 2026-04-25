@@ -32,7 +32,7 @@ router.use(adminOnly);
 
 router.post("/courses", validate(postCourseSchema), createCourses);
 
-router.route("courses/:courseId")
+router.route("/courses/:courseId")
     .all(validate(courseIdParamSchema, "params"))
     .get(getCourses)
     .patch(validate(updateCourseSchema),editCourses)

@@ -27,7 +27,7 @@ router.use(auth);
 
 router.get("/allCourses", getAllCourses);
 
-router.route("courses/:courseId")
+router.route("/courses/:courseId")
     .all(validate(courseIdParamSchema, "params"))
     .get(getCourse)
     .post(validate(purchaseCourseSchema), purchaseCourse);
